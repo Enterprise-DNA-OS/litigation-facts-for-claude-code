@@ -1,0 +1,42 @@
+[
+  {
+    "question": "Which facts have no current supporting citation?",
+    "command": "node scripts/facts.mjs source-gaps --matter=HARBOUR"
+  },
+  {
+    "question": "Which citations became stale after a fact or source changed?",
+    "command": "node scripts/facts.mjs chronology --matter=HARBOUR"
+  },
+  {
+    "question": "Which issues have no reviewed supporting facts?",
+    "command": "node scripts/facts.mjs issue-proof --matter=HARBOUR"
+  },
+  {
+    "question": "Which accounts contradict each other?",
+    "command": "node scripts/facts.mjs contradictions --matter=HARBOUR"
+  },
+  {
+    "question": "What does each witness have to explain?",
+    "command": "node scripts/facts.mjs witness-brief --ref=W01 --matter=HARBOUR"
+  },
+  {
+    "question": "Who owns the most overdue reviews and tasks?",
+    "command": "node scripts/facts.mjs owner-load --matter=HARBOUR"
+  },
+  {
+    "question": "Which facts still have no date?",
+    "command": "node scripts/facts.mjs attention --matter=HARBOUR"
+  },
+  {
+    "question": "Which case records need a retention or access review?",
+    "command": "node scripts/facts.mjs compliance --matter=HARBOUR"
+  },
+  {
+    "question": "Who changed a fact and when?",
+    "command": "node scripts/facts.mjs activity --matter=HARBOUR"
+  },
+  {
+    "question": "What evidence and tasks belong in Monday's review?",
+    "command": "node scripts/facts.mjs weekly-review --matter=HARBOUR"
+  }
+]

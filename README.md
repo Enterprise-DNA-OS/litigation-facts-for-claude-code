@@ -1,115 +1,97 @@
-<h1 align="center">Litigation Facts for Claude Code</h1>
+# Litigation Facts for Claude Code
 
-<p align="center">
-  <strong>The open-source litigation fact system that is just a database and Claude Code.</strong>
-</p>
+Your case chronology, evidence citations, issues and witness preparation in a database you own. See the gaps before the case review.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free, MIT. Install and run the demo. | Your case fields, review rules, imports and documents. | Installed and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Casefleet data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=casefleet">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/casefleet?utm_source=github&utm_medium=readme&utm_campaign=casefleet">How it works</a></td>
-  </tr>
-</table>
+[Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=casefleet) · [Instead of Casefleet](https://enterprisedna.co/omni/instead-of/casefleet)
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-casefleet">Instead of Casefleet</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+## Start with the case review
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Litigation Facts for Claude Code does the job you pay Casefleet for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Casefleet dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Casefleet per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=casefleet).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
-
-## Quick start
-
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later. Open this folder with Claude Code, Codex, OpenCode or Cursor.
 
 ```bash
-git clone https://github.com/Enterprise-DNA-OS/litigation-facts-for-claude-code.git
-cd litigation-facts-for-claude-code
 npm install
 npm run demo
+npm run facts -- chronology --matter=HARBOUR
+npm run facts -- issue-proof --matter=HARBOUR
+npm run docs
+npm run view
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The demo is fictional. A supplier's delivery note conflicts with a warehouse log. A buyer recalls an undated specification change. Two reviews and a records request are overdue. No actual client records are included.
 
-### Use it with your own Postgres or Supabase
+Local PGlite needs no server. Set DATABASE_URL for PostgreSQL 15 or later and use a trusted database owner account. This is a single trusted operator workspace. Do not expose it through a public database role. No per-matter user access control is supplied. Source documents stay in your own restricted evidence store; the database holds references, not document contents.
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+## The weekly rituals
 
-## The commands
+/weekly-review combines chronology, attention, issue proof and owner workload. /source-gaps finds missing or stale citations. /witness-brief prepares the witness's linked facts. /contradictions keeps opposing accounts visible. /review-fact records a named human review of the current revision. /draft-chronology and /draft-witness write private HTML drafts and never send.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+38 CLI commands and 41 workflow recipes ship with this version. Run `npm run facts -- help` for every command. Every CLI command supports `--json`. Writes require `--actor=NAME` and support `--dry-run`. Names match without case, codes match exactly and UUID prefixes work. Ambiguous names list candidates and fail. The command recipes live in .claude/commands for all runtimes.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Evidence is tied to what was reviewed
 
-## Instead of Casefleet
+A citation records both the fact revision and source revision. Changing either makes the old citation stale. Repeating cite after checking the evidence refreshes that reference. Changing a fact clears its review. A review requires current support and no stale citations. An agreed or disputed position remains a human assertion, never a software verdict. Contradictions remain visible after review.
 
-<!-- TODO(author): how to bring data across from Casefleet; link docs/replace-casefleet.md -->
+The activity record captures before and after values with the actor. Database administrators can alter it: this is not a tamper-proof evidence system. The tool does not decide admissibility, calculate court deadlines, file documents or certify legal compliance. /compliance checks recorded safeguard reviews and local evidence rules. [Rules and sources](docs/compliance.md).
 
-## Architecture
+## Ten questions to ask of your own records
 
+These are tested queries this build answers. They are not claims that Casefleet cannot answer the same questions.
+1. Which facts have no current supporting citation? Run `source-gaps`.
+2. Which citations became stale after a fact or source changed? Run `chronology`.
+3. Which issues have no reviewed supporting facts? Run `issue-proof`.
+4. Which accounts contradict each other? Run `contradictions`.
+5. What does each witness have to explain? Run `witness-brief --ref=W01`.
+6. Who owns the most overdue reviews and tasks? Run `owner-load`.
+7. Which facts still have no date? Run `attention`.
+8. Which case records need a retention or access review? Run `compliance`.
+9. Who changed a fact and when? Run `activity`.
+10. What evidence and tasks belong in Monday's review? Run `weekly-review`.
+
+## Bring your Casefleet chronology
+
+Create the destination matter, download the Casefleet Fact Spreadsheet, then import it in one command:
+
+```bash
+npm run facts -- add-matter --code=CASE01 --name="Our case" --actor="Your name"
+npm run facts -- import casefleet --matter=CASE01 --file=imports/facts.xlsx --actor="Your name" --dry-run
+npm run facts -- import casefleet --matter=CASE01 --file=imports/facts.xlsx --actor="Your name"
 ```
-litigation-facts-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
 
-## Built for coding agents
+Dates and fact text map directly. All original columns, including entity, issue and source descriptions, are retained with each fact. Those descriptions need reviewed links before they count as evidence. A file with different column names needs a small field map; use --sheet for a workbook with several sheets. CSV is supported too. Read [the export steps and mapping limits](docs/replace-casefleet.md).
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+The importer is atomic. An invalid row rolls back the whole file. Repeating unchanged rows does not duplicate them. Stable source IDs allow an explicit --update for changed rows. Without IDs, changed rows become new facts and require reconciliation. The included fixture is a synthetic mapping example, not an export captured from a Casefleet account.
 
-## Contributing
+## Documents and views
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+Change brand.json once. `npm run docs` writes a draft chronology, issue outline and witness briefs. `npm run view` writes read-only weekly, proof and safeguard reports. Outputs contain internal working material, including privileged references. Review them before any disclosure. Generated records and local data are excluded from version control.
 
-## Want it installed and run for you?
+No document viewer, transcription, automatic fact extraction or live collaborative editor is included. Enterprise DNA can scope these into the version it builds for your practice. [What a screen adds](docs/why-no-front-end.md).
 
-Enterprise DNA installs Litigation Facts for Claude Code for your business, migrates your Casefleet data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Your first hour: ten things to ask for
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=casefleet)
-- Read more: [enterprisedna.co/omni/instead-of/casefleet](https://enterprisedna.co/omni/instead-of/casefleet?utm_source=github&utm_medium=readme&utm_campaign=casefleet)
+1. Put our name and logo on the chronology.
+2. Import one case without saving it.
+3. Map our exported fact description column.
+4. Keep approximate dates explicit.
+5. Link the delivery note to the recorded fact.
+6. Mark the privileged source before drafting.
+7. Assign next week's witness preparation tasks.
+8. Show facts that have no evidence reference.
+9. Add our review sign-off field.
+10. Draft the issue outline for Monday.
 
-## License
+/customise writes and tests the requested migration. /new-view adds a read-only report.
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+## Verification
+
+`npm test` uses temporary data, migrates and seeds twice, and exercises every CLI command. It checks stale citations, review invalidation, cross-matter constraints, ambiguous names, import rollback, repeat imports, XLSX handling, exports, drafts and HTML escaping. CI runs Node 20 and 22 on Windows and Linux, plus PostgreSQL. Check the actual workflow result before claiming a platform passed.
+
+## Built and run for you
+
+Enterprise DNA builds your version, brings across agreed Casefleet records and runs it through Omni by Enterprise DNA. One setup fee, then a retainer. [Book 30 minutes with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=casefleet).
+
+MIT. Not affiliated with Casefleet or Anthropic. Hosting and agent usage have their own costs.

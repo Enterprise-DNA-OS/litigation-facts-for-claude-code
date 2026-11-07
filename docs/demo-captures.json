@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Evidence gaps",
+    "ask": "Which facts still need supporting evidence?",
+    "command": "node scripts/facts.mjs source-gaps --matter=HARBOUR",
+    "output": "code  fact                                                current_support  stale_citations\n  ----  --------------------------------------------------  ---------------  ---------------\n  F03   Buyer recalls a verbal change to the specification  0                0"
+  },
+  {
+    "title": "Issue coverage",
+    "ask": "Which issues have no reviewed supporting facts?",
+    "command": "node scripts/facts.mjs issue-proof --matter=HARBOUR",
+    "output": "code  issue                 owner  facts  reviewed_supported  contested\n  ----  --------------------  -----  -----  ------------------  ---------\n  I01   Delivery timing       Mara   2      0                   2        \n  I02   Specification agreed  Tane   0      0                   0"
+  },
+  {
+    "title": "Opposing accounts",
+    "ask": "Which accounts contradict each other?",
+    "command": "node scripts/facts.mjs contradictions --matter=HARBOUR",
+    "output": "fact  other  note                                                           \n  ----  -----  ---------------------------------------------------------------\n  F01   F02    Delivery sequence differs between the note and warehouse record"
+  }
+]

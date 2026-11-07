@@ -1,11 +1,62 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "chronology",
+    "title": "Draft chronology: internal lawyer review",
+    "for_each": "select id,code from matters order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Matter",
+        "layout": "record",
+        "sql": "select code,name,owner,purpose from matters where id=$1"
+      },
+      {
+        "title": "Facts",
+        "sql": "select code,occurred_on,date_precision,fact,position,current_support,stale_citations,conflicts from v_chronology where matter_id=$1 order by occurred_on nulls last,code"
+      },
+      {
+        "title": "Evidence references",
+        "note": "This internal document can contain confidential and privileged material. It is not cleared for disclosure.",
+        "sql": "select f.code as fact,s.code as source,s.name,c.pinpoint,c.stance,s.confidentiality from citations c join facts f on f.id=c.fact_id join sources s on s.id=c.source_id where c.matter_id=$1 order by f.code,s.code"
+      }
+    ]
+  },
+  {
+    "name": "issue-outline",
+    "title": "Draft issue outline",
+    "for_each": "select id,code from matters order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Issue evidence",
+        "sql": "select code,issue,owner,facts,reviewed_supported,contested from v_issue_proof where matter_id=$1 order by code"
+      },
+      {
+        "title": "Open work",
+        "sql": "select code,name,owner,due_on from tasks where matter_id=$1 and status='open' order by due_on"
+      }
+    ]
+  },
+  {
+    "name": "witness-brief",
+    "title": "Draft witness preparation brief",
+    "for_each": "select id,code from witnesses order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Witness",
+        "layout": "record",
+        "sql": "select code,name,role from witnesses where id=$1"
+      },
+      {
+        "title": "Linked facts",
+        "sql": "select f.code,f.occurred_on,f.fact,f.current_support,f.conflicts from fact_witnesses l join v_chronology f on f.id=l.fact_id where l.witness_id=$1 order by f.occurred_on nulls last,f.code"
+      },
+      {
+        "title": "Evidence references",
+        "note": "Internal review only. Never send automatically.",
+        "sql": "select f.code,s.name,c.pinpoint,c.stance,s.confidentiality from fact_witnesses l join facts f on f.id=l.fact_id join citations c on c.fact_id=f.id join sources s on s.id=c.source_id where l.witness_id=$1 order by f.code,s.name"
+      }
     ]
   }
 ]

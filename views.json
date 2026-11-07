@@ -1,13 +1,36 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Litigation Facts for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Litigation review",
+    "subtitle": "Internal working record. Review before relying on it.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Chronology",
+        "sql": "select matter,code,occurred_on,date_precision,fact,current_support,stale_citations,conflicts from v_chronology order by matter,occurred_on nulls last,code"
+      },
+      {
+        "title": "Attention",
+        "sql": "select m.code as matter,a.code,a.owner,a.finding from v_attention a join matters m on m.id=a.matter_id order by matter,finding,code"
+      }
+    ]
+  },
+  {
+    "name": "proof",
+    "title": "Issue evidence",
+    "sections": [
+      {
+        "title": "Evidence coverage",
+        "sql": "select m.code as matter,i.code,i.issue,i.facts,i.reviewed_supported,i.contested from v_issue_proof i join matters m on m.id=i.matter_id order by matter,i.code"
+      }
+    ]
+  },
+  {
+    "name": "safeguards",
+    "title": "Record safeguard review",
+    "sections": [
+      {
+        "title": "Review prompts",
+        "sql": "select m.code as matter,c.code,c.rule,c.finding,c.source from v_compliance c join matters m on m.id=c.matter_id order by matter,rule"
       }
     ]
   }
