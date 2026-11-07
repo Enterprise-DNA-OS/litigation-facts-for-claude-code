@@ -6,7 +6,7 @@ Your case chronology, evidence citations, issues and witness preparation in a da
 |---|---|---|
 | Free, MIT. Install and run the demo. | Your case fields, review rules, imports and documents. | Installed and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
 
-[Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=casefleet) · [Instead of Casefleet](https://enterprisedna.co/omni/instead-of/casefleet)
+[Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=casefleet) · [Instead of Casefleet](https://enterprisedna.co/omni/instead-of/casefleet?utm_source=github&utm_medium=readme&utm_campaign=casefleet)
 
 ## Start with the case review
 
